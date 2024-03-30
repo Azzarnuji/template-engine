@@ -1,0 +1,1 @@
+{"version":3,"file":"StateManagement.d.ts","sourceRoot":"","sources":["../../src/utils/StateManagement.ts"],"names":[],"mappings":"AAAA,cAAM,uBAAuB;IACzB,OAAO,CAAC,KAAK,CAAW;IACjB,QAAQ,CAAC,EAAE,EAAE,MAAM,EAAE,KAAK,EAAE,GAAG;IAG/B,QAAQ;CAGlB;AAED,OAAO,EAAE,uBAAuB,EAAE,CAAC"}

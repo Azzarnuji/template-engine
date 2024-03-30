@@ -1,0 +1,1 @@
+{"version":3,"file":"THandleChange.d.ts","sourceRoot":"","sources":["../../src/types/THandleChange.ts"],"names":[],"mappings":"AAAA,UAAU,aAAa;IACnB,SAAS,EAAE,MAAM,CAAC;IAClB,QAAQ,EAAE,CAAC,KAAK,EAAE,KAAK,KAAK,IAAI,CAAC;IACjC,IAAI,CAAC,EAAE,MAAM,mBAAmB,CAAC;CACpC;AAED,YAAY,EAAE,aAAa,EAAE,CAAC"}
