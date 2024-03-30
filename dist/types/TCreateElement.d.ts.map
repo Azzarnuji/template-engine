@@ -1,0 +1,1 @@
+{"version":3,"file":"TCreateElement.d.ts","sourceRoot":"","sources":["../../src/types/TCreateElement.ts"],"names":[],"mappings":"AAAA,KAAK,cAAc,GAAG;IAClB,OAAO,EAAE,MAAM,qBAAqB,CAAC;IACrC,UAAU,EAAE,OAAO,CAAC,WAAW,CAAC,CAAC;IACjC,EAAE,EAAE,MAAM,CAAC;IACX,WAAW,CAAC,EAAE,MAAM,GAAG,SAAS,CAAC;CACpC,CAAC;AACF,eAAe,cAAc,CAAC"}

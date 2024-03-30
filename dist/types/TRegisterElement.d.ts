@@ -3,9 +3,12 @@ type IdAndValue = {
     value: any;
 };
 interface TRegisterElemet {
-    [key: string]: {
+    data_pengantin: {
         mempelai_wanita: IdAndValue;
         mempelai_pria: IdAndValue;
+    };
+    template_config: {
+        divEditableBackgroundColor: IdAndValue[];
     };
 }
 export type { TRegisterElemet };

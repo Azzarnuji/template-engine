@@ -38,7 +38,7 @@ engine.handleClick({
     }
 })
 document.addEventListener('DOMContentLoaded', () => {
-    engine.registerElementAndSetElementValue({
+    engine.registerElement({
         data_pengantin: {
             mempelai_wanita: {
                 id: "mempelaiWanita",
