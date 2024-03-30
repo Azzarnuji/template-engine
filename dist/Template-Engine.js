@@ -1,5 +1,6 @@
 import { getElement } from "./utils/GetElement.js";
 import { useStateManagementClass } from "./utils/StateManagement.js";
+import jsonHelper from "./utils/JsonHasChildrenArray.js";
 class TemplateEngine {
     constructor() {
         this.registerElementData = null;
@@ -17,31 +18,97 @@ class TemplateEngine {
         }
     }
     handleChangeInput({ elementId, type, callback }) {
-        var _a;
-        (_a = getElement(elementId)) === null || _a === void 0 ? void 0 : _a.addEventListener(type, (event) => {
+        getElement(elementId)?.addEventListener(type, (event) => {
             callback(event);
         });
     }
-    useStateManagement() {
-        const state = new useStateManagementClass();
-        const setState = (id, value) => {
-            state.setState(id, value);
-        };
-        return [state.getState(), setState];
+    /**
+     * Creates and appends a new HTML element to a specified target element.
+     *
+     * @param {TCreateElement} tagName - The tag name of the element to create.
+     * @param {TCreateElement} attributes - The attributes of the element.
+     * @param {TCreateElement} id - The id of the element.
+     * @param {TCreateElement} targetPlace - The target place to append the element to.
+     * @return {HTMLElement | undefined} The created HTML element.
+     */
+    createElement({ tagName, attributes, targetPlace }) {
+        const element = document.createElement(tagName);
+        for (const [key, value] of Object.entries(attributes)) {
+            if (typeof value === "string" && value !== null) {
+                element.setAttribute(key, value);
+            }
+        }
+        if (targetPlace !== undefined || targetPlace !== null) {
+            getElement(targetPlace).appendChild(element);
+        }
+        else {
+            return element;
+        }
     }
     handleClick({ elementId, callback }) {
-        var _a;
-        (_a = getElement(elementId)) === null || _a === void 0 ? void 0 : _a.addEventListener("click", (event) => callback(event));
+        getElement(elementId)?.addEventListener("click", (event) => callback(event));
     }
-    registerElementAndSetElementValue(data) {
+    useStateManagement() {
+        const state = new useStateManagementClass();
+        const setState = (...args) => {
+            state.setState(...args);
+        };
+        const getState = () => {
+            return state.getState();
+        };
+        return [state.state, setState];
+    }
+    registerElement(data) {
         this.registerElementData = data;
     }
-    run() {
-        for (const keyParent in this.registerElementData) {
-            for (const keyChild in this.registerElementData[keyParent]) {
-                const { id, value } = this.registerElementData[keyParent][keyChild];
-                this.setElementValue(id, value);
+    mergerData({ data, target }) {
+        let mergedData = { ...target };
+        for (const key in mergedData) {
+            if (jsonHelper(mergedData, key).hasChildren()) {
+                for (const keyChild in mergedData[key]) {
+                    if (jsonHelper(mergedData[key], keyChild).isArray()) {
+                        const mappedValue = Object.keys(data[key][keyChild]).map((keyData, index) => {
+                            return {
+                                id: keyData,
+                                value: data[key][keyChild][keyData]
+                            };
+                        });
+                        mergedData[key][keyChild] = mappedValue;
+                    }
+                    else if (!jsonHelper(mergedData[key], keyChild).isArray()) {
+                        let temp = {};
+                        Object.keys(data[key]).map((keyData, index) => {
+                            temp = {
+                                ...temp,
+                                [keyData]: {
+                                    id: target[key][keyData].id,
+                                    value: data[key][keyData]
+                                }
+                            };
+                        });
+                        mergedData[key] = temp;
+                    }
+                }
             }
+        }
+        // console.log(mergedData);
+        return mergedData;
+    }
+    // public setKeyData({ keyDataPengantin, keydivEditableBackgroundColor }: { keyDataPengantin: string; keydivEditableBackgroundColor: string }) {
+    //     this.keyDataPengantin = keyDataPengantin;
+    //     this.keydivEditableBackgroundColor = keydivEditableBackgroundColor;
+    // }
+    run() {
+        // This is for data_pengantin
+        for (const key in this.registerElementData?.data_pengantin) {
+            const { id, value } = this.registerElementData.data_pengantin[key];
+            this.setElementValue(id, value);
+        }
+        // This is for layout editable
+        if (this.registerElementData?.template_config?.divEditableBackgroundColor !== undefined) {
+            this.registerElementData?.template_config.divEditableBackgroundColor.forEach((divEditable, index) => {
+                this.changeBackgroundColor(divEditable.id, divEditable.value);
+            });
         }
     }
 }
